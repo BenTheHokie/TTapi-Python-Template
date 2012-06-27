@@ -27,7 +27,11 @@ userList = []
 def speak(data):
    name = data['name']
    userid = data['userid']
-   
+   text = data['text']
+   userid = data['userid']
+   print( '        '+ strpAcc(name) + ':'+ ' '*(21-len(strpAcc(name)))+ strpAcc(text))
+   if re.match('/((h(ello|i|ey))|(sup))', strpAcc(text)):
+      bbot.speak('Hey! How are you %s?' % atName(name))
 
 def roomChanged(data):
    print 'Moderators:      %s' % (', '.join(data['room']['metadata']['moderator_id']))
@@ -36,21 +40,28 @@ def roomChanged(data):
       userList.append({'name':data['users'][i]['name'],'userid':data['users'][i]['userid'],'avatarid':data['users'][i]['avatarid']})
    print '\nCurrent Users:'
    for i in range(len(userList)):
-      print(strip_accents(userList[i]['name'])+ ' '*(30-len(strip_accents(userList[i]['name']))) + userList[i]['userid']) #when we enter the room we print the current users in the I/O
+      print(strpAcc(userList[i]['name'])+ ' '*(30-len(strpAcc(userList[i]['name']))) + userList[i]['userid']) #when we enter the room we print the current users in the I/O
    print '\nCurrent DJs:'
    for i in range(len(userList)):
       if userList[i]['userid'] in data['room']['metadata']['djs']:
-         print strip_accents(userList[i]['name'])
+         print strpAcc(userList[i]['name'])
 
 def userReg(data):
    userid = data['user'][0]['userid']
    name   = data['user'][0]['name']
-   print '%s  %s has entered the room. %s' % (strftime('%I:%M:%S %p',localtime()),strip_accents(name),userid)
+   print '%s  %s has entered the room. %s' % (strftime('%I:%M:%S %p',localtime()),strpAcc(name),userid)
    userList.append({'name':data['user'][0]['name'],'userid':data['user'][0]['userid'],'avatarid':data['user'][0]['avatarid']})
 
-def strip_accents(s):
+def strpAcc(s):
    return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
 
+def atName(name): # This is so we don't get @@twittername which looks weird. If the user has a twitter name, one @ should still ping them
+   if name[0]=='@':
+      return name
+   else:
+      return '@%s' % name
+
+bbot.on('roomChanged',roomChanged)
 bot.on('registered',userReg)
 bot.on('speak',speak)
 bot.start()
