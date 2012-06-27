@@ -14,7 +14,7 @@ import pickle
 bot_auth       = 'auth+live+xxxxxx'
 bot_userid     = 'xxxx'
 
-lsk_userid        = '4e7c70bc4fe7d052ef034402'
+lsk_userid     = '4e7c70bc4fe7d052ef034402'
 
 AUTH   = ''
 USERID = ''
@@ -29,7 +29,7 @@ def speak(data):
    userid = data['userid']
    text = data['text']
    userid = data['userid']
-   print( '        '+ strpAcc(name) + ':'+ ' '*(21-len(strpAcc(name)))+ strpAcc(text))
+   print(strftime('%I:%M:%S %p',localtime())+'  '+strpAcc(name) + ':'+ ' '*(21-len(strpAcc(name)))+ strpAcc(text))
    if re.match('/((h(ello|i|ey))|(sup))', strpAcc(text)):
       bbot.speak('Hey! How are you %s?' % atName(name))
 
@@ -45,12 +45,20 @@ def roomChanged(data):
    for i in range(len(userList)):
       if userList[i]['userid'] in data['room']['metadata']['djs']:
          print strpAcc(userList[i]['name'])
+   print '\n'
 
 def userReg(data):
    userid = data['user'][0]['userid']
    name   = data['user'][0]['name']
    print '%s  %s has entered the room. %s' % (strftime('%I:%M:%S %p',localtime()),strpAcc(name),userid)
    userList.append({'name':data['user'][0]['name'],'userid':data['user'][0]['userid'],'avatarid':data['user'][0]['avatarid']})
+   
+def userDereg(data):
+   userid = data['user'][0]['userid']
+   name   = data['user'][0]['name']
+   print '%s  %s has left the room. %s' % (strftime('%I:%M:%S %p',localtime()),strpAcc(name),userid)
+   for i in range(len(userList)):
+      if userList[i]['userid']==userid: userList.remove(userList[i])
 
 def strpAcc(s):
    return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
@@ -61,7 +69,8 @@ def atName(name): # This is so we don't get @@twittername which looks weird. If 
    else:
       return '@%s' % name
 
-bbot.on('roomChanged',roomChanged)
+bot.on('deregistered',userDereg)
+bot.on('roomChanged',roomChanged)
 bot.on('registered',userReg)
 bot.on('speak',speak)
 bot.start()
