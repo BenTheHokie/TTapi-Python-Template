@@ -23,6 +23,7 @@ ROOM   = ''
 bot = Bot(AUTH,USERID,ROOM)
 
 userList = []
+snags = 0
 
 def speak(data):
    name = data['name']
@@ -51,7 +52,8 @@ def userReg(data):
    userid = data['user'][0]['userid']
    name   = data['user'][0]['name']
    print '%s  %s has entered the room. %s' % (strftime('%I:%M:%S %p',localtime()),strpAcc(name),userid)
-   userList.append({'name':data['user'][0]['name'],'userid':data['user'][0]['userid'],'avatarid':data['user'][0]['avatarid']})
+   if not(userid == bot_userid):
+      userList.append({'name':data['user'][0]['name'],'userid':data['user'][0]['userid'],'avatarid':data['user'][0]['avatarid']})
    
 def userDereg(data):
    userid = data['user'][0]['userid']
@@ -59,6 +61,10 @@ def userDereg(data):
    print '%s  %s has left the room. %s' % (strftime('%I:%M:%S %p',localtime()),strpAcc(name),userid)
    for i in range(len(userList)):
       if userList[i]['userid']==userid: userList.remove(userList[i])
+
+def recSnag(data):
+   global snags
+   snags += 1
 
 def strpAcc(s):
    return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
@@ -69,6 +75,7 @@ def atName(name): # This is so we don't get @@twittername which looks weird. If 
    else:
       return '@%s' % name
 
+bot.on('snag',recSnag)
 bot.on('deregistered',userDereg)
 bot.on('roomChanged',roomChanged)
 bot.on('registered',userReg)
