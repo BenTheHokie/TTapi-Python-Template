@@ -1,4 +1,4 @@
-#BumBot v1 This bot's account was taken from Backup Ref since CTS didn't want the bot.
+# This is a template for future LSK Python bots
 
 from ttapi import Bot
 from printnesteddictionary import print_dict
