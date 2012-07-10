@@ -16,8 +16,8 @@ bot_userid     = 'xxxx'
 
 lsk_userid     = '4e7c70bc4fe7d052ef034402'
 
-AUTH   = ''
-USERID = ''
+AUTH   = bot_auth
+USERID = bot_userid
 ROOM   = ''
 
 bot = Bot(AUTH,USERID,ROOM)
