@@ -37,7 +37,7 @@ Customize the code to your liking and run!
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, and/or distribute freely copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice (excluding, of course, the section labeled "Instructions") shall be included in all copies or substantial portions of the Software. Any copies or modifications must be given freely without financial or other charge of any kind.
+The above copyright notice and this permission notice (excluding, of course, the section labeled "Instructions") shall be included in all copies or substantial portions of the Software. Any copies or modifications of the Software must be given freely without financial or other charge of any kind.
 
 The Software shall be used for Good, not Evil.
 
