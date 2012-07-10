@@ -17,7 +17,7 @@ After you have cloned or downloaded the git, edit your code and paste the values
 Your code should now look like this:
 
 ```python
-bot_auth       = 'auth+livexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' # LINE 14
+bot_auth       = 'auth+live+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' # LINE 14
 bot_userid     = '4fxxxxxxxxxxxxxxxxxxxxxx'
 
 lsk_userid     = '4e7c70bc4fe7d052ef034402' #The userid in here is in control of the bot. Rename the variable name if you wish.
